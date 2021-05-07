@@ -27,8 +27,8 @@ class LogRestRequest implements ShouldQueue
         $customData = $request->attributes->get('custom_data', null);
 
         $requestLog->storeLog([
-            'action'           => $request->attributes->get('action', 'undefined'),
-            'channel'          => $request->attributes->get('channel', 'undefined'),
+            'action'           => $request->attributes->get('action', 'default'),
+            'channel'          => $request->attributes->get('channel', 'default'),
             'method'           => $request->getMethod(),
             'execution_time'   => microtime(true) - $this->startTime,
             'custom_data'      => is_array($customData) ? json_encode($customData) : $customData

@@ -56,8 +56,8 @@ return [
 ## Example usage 1: Middleware
 
 If middleware is used as is request logs will always save:
-- request_logs.action = undefined 
-- request_logs.channel = undefined
+- request_logs.action = default 
+- request_logs.channel = default
 
 To get this right, where ever you define middleware you should pass
 
