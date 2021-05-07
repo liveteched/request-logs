@@ -1,0 +1,38 @@
+<?php
+
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
+
+class CreateRequestLogRelationsTable extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('request_log_relations', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->unsignedBigInteger('request_log_id');
+
+            $table->string('relatable_type');
+            $table->string('relatable_id');
+            
+            $table->index(['relatable_type', 'relatable_id']);
+            $table->index('request_log_id');
+            $table->foreign('request_log_id')->references('id')->on('request_logs')->onDelete('cascade');
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('request_log_relations');
+    }
+}

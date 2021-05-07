@@ -1,0 +1,45 @@
+<?php
+
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
+
+class CreateRequestLogsTable extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('request_logs', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->string('url');
+            $table->string('action');
+            $table->string('channel');
+            $table->string('method');
+            $table->longText('request_headers');
+            $table->longText('request_body');
+            $table->longText('response_headers');
+            $table->longText('response_body');
+            $table->boolean('success')->default(0);
+            $table->float('execution_time');
+            $table->json('custom_data')->nullable();
+            $table->timestamps();
+
+            $table->index('channel');
+            $table->index('action');
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('request_logs');
+    }
+}
