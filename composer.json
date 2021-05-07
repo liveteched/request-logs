@@ -9,7 +9,7 @@
         }
     ],
     "require": {
-        "php": "^7.4|^8.0",
+        "php": "^8.0",
         "illuminate/contracts": "^8.0",
         "ext-json": "*"
     },
@@ -46,8 +46,8 @@
                 "Shambou\\RequestLogs\\RequestLogServiceProvider"
             ],
             "aliases": {
-                "RequestLogFactory": "JohnDoe\\BlogPackage\\Facades\\RequestLogFactory",
-                "RequestLogParserFactory": "JohnDoe\\BlogPackage\\Facades\\RequestLogParserFactory"
+                "RequestLogFactory": "Shambou\\RequestLogs\\Facades\\RequestLogFactory",
+                "RequestLogParserFactory": "Shambou\\RequestLogs\\Facades\\RequestLogParserFactory"
             }
         }
     }

@@ -4,8 +4,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Shambou\RequestLogs\Classes\Logging\Request;
 use Shambou\RequestLogs\Classes\Logging\Response;
+use Shambou\RequestLogs\Classes\Logging\RestResponse;
+use Shambou\RequestLogs\Classes\Logging\SoapResponse;
 use Shambou\RequestLogs\Contracts\RequestLogInterface;
 use Shambou\RequestLogs\Facades\RequestLogParserFactory;
+use Illuminate\Http\JsonResponse;
+use SoapClient;
 
 class RequestLog extends Model implements RequestLogInterface
 {
@@ -54,26 +58,45 @@ class RequestLog extends Model implements RequestLogInterface
 
         return $this;
     }
-    
+
     public function setResponse(Response $response): self
     {
         $this->response = $response;
 
         return $this;
     }
-    
+
+    public function setJsonResponse(JsonResponse $response): self
+    {
+        return $this->setResponse(new RestResponse($response));
+    }
+
+    public function setSoapResponse(SoapClient $soapClient): self
+    {
+        return $this->setResponse(new SoapResponse($soapClient));
+    }
+
     public function getRequest(): Request
     {
         return $this->request;
     }
-    
+
     public function getResponse(): Response
     {
         return $this->response;
     }
-    
+
     public function storeLog(array $data, $relation = null): self
     {
+        $data = array_merge([
+            'url'              => $this->getRequest()->getUrl(),
+            'request_headers'  => $this->getRequest()->getHeaders(),
+            'request_body'     => $this->getRequest()->getBody(),
+            'response_headers' => $this->getResponse()->getHeaders(),
+            'response_body'    => $this->getResponse()->getBody(),
+            'success'          => $this->getResponse()->isSuccessful(),
+        ], $data);
+
         $this->fill($data)->save();
 
         if ($relation) {

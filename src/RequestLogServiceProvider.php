@@ -1,8 +1,6 @@
 <?php namespace Shambou\RequestLogs;
 
-use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Routing\Router;
-use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Shambou\RequestLogs\Classes\Logging\RequestLogFactory;
 use Shambou\RequestLogs\Classes\Parsing\RequestLogParserFactory;
@@ -30,10 +28,6 @@ class RequestLogServiceProvider extends ServiceProvider
             return new RequestLogParserFactory();
         });
 
-        // Register a global middleware
-        // $kernel = $this->app->make(Kernel::class);
-        // $kernel->pushMiddleware(RequestLogMiddleware::class);
-        
         // Register a route specific middleware
         $router = $this->app->make(Router::class);
         $router->aliasMiddleware('requestlogs', RequestLogMiddleware::class);
@@ -55,14 +49,6 @@ class RequestLogServiceProvider extends ServiceProvider
                     // you can add any number of migrations here
                 ], 'migrations');
             }
-
-            //			$this->publishes([
-//				__DIR__.'/../resources/views' => resource_path('views/'),
-//			], 'views');
-//
-//			$this->publishes([
-//				__DIR__.'/../resources/assets' => public_path('requestlogs'),
-//			], 'assets');
         }
     }
 }

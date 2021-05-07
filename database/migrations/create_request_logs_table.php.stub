@@ -16,15 +16,15 @@ class CreateRequestLogsTable extends Migration
         Schema::create('request_logs', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('url');
-            $table->string('action');
-            $table->string('channel');
+            $table->string('action')->nullable();
+            $table->string('channel')->nullable();
             $table->string('method');
             $table->longText('request_headers');
             $table->longText('request_body');
             $table->longText('response_headers');
             $table->longText('response_body');
             $table->boolean('success')->default(0);
-            $table->float('execution_time');
+            $table->float('execution_time')->nullable();
             $table->json('custom_data')->nullable();
             $table->timestamps();
 
