@@ -2,13 +2,13 @@
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Http\JsonResponse;
 use Shambou\RequestLogs\Classes\Logging\Request;
 use Shambou\RequestLogs\Classes\Logging\Response;
 use Shambou\RequestLogs\Classes\Logging\RestResponse;
 use Shambou\RequestLogs\Classes\Logging\SoapResponse;
 use Shambou\RequestLogs\Contracts\RequestLogInterface;
 use Shambou\RequestLogs\Facades\RequestLogParserFactory;
-use Illuminate\Http\JsonResponse;
 use SoapClient;
 
 class RequestLog extends Model implements RequestLogInterface
