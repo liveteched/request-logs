@@ -1,5 +1,5 @@
 # request-logs
-Store request/response data/headers from receiving API calls
+Store request/response data and headers from receiving API calls
 
 
 in progress
