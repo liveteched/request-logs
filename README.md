@@ -13,6 +13,7 @@ Both are used for easier searching/handling DB records
 
 ## Installation:
 ```
+$ composer require shambou/request-logs
 $ php artisan requestlogs:install
 $ php artisan migrate
 ```
