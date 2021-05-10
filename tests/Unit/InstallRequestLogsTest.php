@@ -7,7 +7,7 @@ use Shambou\RequestLogs\Tests\TestCase;
 class InstallRequestLogsTest extends TestCase
 {
     /** @test */
-    function the_install_command_copies_a_the_configuration_and_migrations()
+    function the_install_command_copies_a_the_configuration()
     {
         // make sure we're starting from a clean state
         if (File::exists(config_path('requestlogs.php'))) {
