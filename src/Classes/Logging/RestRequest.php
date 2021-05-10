@@ -12,7 +12,7 @@ class RestRequest extends ApiRequest
     public function __construct(HttpRequest $request)
     {
         $this->headers = $this->parseHeaders($request);
-        $this->body = $request->getContent();
+        $this->body = json_encode($request->all());
         $this->url = $request->fullUrl();
     }
 
