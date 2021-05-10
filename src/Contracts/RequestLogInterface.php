@@ -22,5 +22,13 @@ interface RequestLogInterface
 
     public function getResponse(): Response;
 
-    public function storeLog(array $data, $relation = null): self;
+    public function setChannel(string $channel): self;
+
+    public function setAction(string $action): self;
+
+    public function setCustomData(array $data): self;
+
+    public function setExecutionTime($executionTime): self;
+
+    public function storeLog($relations = null): void;
 }

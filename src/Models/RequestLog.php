@@ -17,19 +17,7 @@ class RequestLog extends Model implements RequestLogInterface
 
     private Response $response;
 
-    protected $fillable = [
-        'url',
-        'action',
-        'channel',
-        'method',
-        'request_headers',
-        'request_body',
-        'response_headers',
-        'response_body',
-        'success',
-        'custom_data',
-        'execution_time',
-    ];
+    protected $fillable = ['url', 'action', 'channel', 'request_headers', 'request_body', 'response_headers', 'response_body', 'success', 'custom_data', 'execution_time'];
 
     protected $appends = ['parsed_request', 'parsed_response'];
 
@@ -86,61 +74,66 @@ class RequestLog extends Model implements RequestLogInterface
         return $this->response;
     }
 
-    public function storeLog(array $data, $relation = null): self
+    public function setChannel(string $channel): self
     {
-        $data = array_merge([
+        $this->channel = $channel;
+
+        return $this;
+    }
+
+    public function setAction(string $action): self
+    {
+        $this->action = $action;
+
+        return $this;
+    }
+
+    public function setCustomData(array $data): self
+    {
+        $this->custom_data = json_encode($data);
+
+        return $this;
+    }
+
+    public function setExecutionTime($executionTime): self
+    {
+        $this->execution_time = $executionTime;
+
+        return $this;
+    }
+
+    /**
+     * @param mixed|Model|Model[] $relations model relation/s
+     */
+    public function storeLog($relations = null): void
+    {
+        $this->fill([
+            'channel'          => $this->channel ?? 'default',
+            'action'           => $this->action ?? 'default',
             'url'              => $this->getRequest()->getUrl(),
             'request_headers'  => $this->getRequest()->getHeaders(),
             'request_body'     => $this->getRequest()->getBody(),
             'response_headers' => $this->getResponse()->getHeaders(),
             'response_body'    => $this->getResponse()->getBody(),
             'success'          => $this->getResponse()->isSuccessful(),
-        ], $data);
+        ])->save();
 
-        $this->fill($data)->save();
-
-        if ($relation) {
-            if (is_iterable($relation)) {
-                foreach ($relation as $model) {
+        if ($relations) {
+            if (is_iterable($relations)) {
+                foreach ($relations as $model) {
                     RequestLogRelation::create([
                         'request_log_id' => $this->id,
                         'relatable_type' => get_class($model),
-                        'relatable_id'   => $model->id,
+                        'relatable_id' => $model->id
                     ]);
                 }
             } else {
                 RequestLogRelation::create([
                     'request_log_id' => $this->id,
-                    'relatable_type' => get_class($relation),
-                    'relatable_id'   => $relation->id,
+                    'relatable_type' => get_class($relations),
+                    'relatable_id' => $relations->id,
                 ]);
             }
         }
-
-        return $this;
-    }
-
-    public static function getChannelsArray(): array
-    {
-        return self::select('channel')
-            ->distinct()
-            ->get()
-            ->pluck('channel')
-            ->toArray();
-    }
-
-    public static function getActionsGroupedByChannel(): array
-    {
-        $data = self::select('channel', 'action')
-            ->groupby('action')
-            ->get();
-
-        $result = [];
-
-        foreach ($data as $action) {
-            $result[$action->channel][] = $action->action;
-        }
-
-        return $result;
     }
 }
