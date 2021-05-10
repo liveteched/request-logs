@@ -105,7 +105,7 @@ class RequestLog extends Model implements RequestLogInterface
     /**
      * @param mixed|Model|Model[] $relations model relation/s
      */
-    public function storeLog($relations = null): void
+    public function storeLog($relations = null): self
     {
         $this->fill([
             'channel'          => $this->channel ?? 'default',
@@ -135,5 +135,7 @@ class RequestLog extends Model implements RequestLogInterface
                 ]);
             }
         }
+
+        return $this;
     }
 }

@@ -30,5 +30,5 @@ interface RequestLogInterface
 
     public function setExecutionTime($executionTime): self;
 
-    public function storeLog($relations = null): void;
+    public function storeLog($relations = null): self;
 }
