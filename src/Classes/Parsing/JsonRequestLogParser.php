@@ -4,7 +4,11 @@ class JsonRequestLogParser extends AbstractRequestLogParser
 {
     public function requestData(): array
     {
-        return json_decode($this->requestBody, true);
+        if (is_json($this->requestBody)) {
+            return json_decode($this->requestBody, true);
+        }
+
+        return [];
     }
 
     public function responseData()
@@ -12,7 +16,7 @@ class JsonRequestLogParser extends AbstractRequestLogParser
         if (is_string($this->responseBody) && ! is_json($this->responseBody)) {
             return $this->responseBody;
         }
-        
+
         return json_decode($this->responseBody, true);
     }
 }
