@@ -3,7 +3,7 @@
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Http\JsonResponse;
-use Shambou\RequestLogs\Classes\Logging\Request;
+use Shambou\RequestLogs\Classes\Logging\ApiRequest;
 use Shambou\RequestLogs\Classes\Logging\Response;
 use Shambou\RequestLogs\Classes\Logging\RestResponse;
 use Shambou\RequestLogs\Classes\Logging\SoapResponse;
@@ -13,7 +13,7 @@ use SoapClient;
 
 class RequestLog extends Model implements RequestLogInterface
 {
-    private Request $request;
+    private ApiRequest $request;
 
     private Response $response;
 
@@ -52,7 +52,7 @@ class RequestLog extends Model implements RequestLogInterface
         return $this->hasMany(RequestLogRelation::class);
     }
 
-    public function setRequest(Request $request): self
+    public function setRequest(ApiRequest $request): self
     {
         $this->request = $request;
 
@@ -76,7 +76,7 @@ class RequestLog extends Model implements RequestLogInterface
         return $this->setResponse(new SoapResponse($soapClient));
     }
 
-    public function getRequest(): Request
+    public function getRequest(): ApiRequest
     {
         return $this->request;
     }

@@ -4,10 +4,10 @@ use Illuminate\Http\Request as HttpRequest;
 use Illuminate\Support\Arr;
 
 /**
- * Basic/Rest Request class
+ * Basic/Rest ApiRequest class
  * Used for storing rest requests
  */
-class RestRequest extends Request
+class RestRequest extends ApiRequest
 {
     public function __construct(HttpRequest $request)
     {

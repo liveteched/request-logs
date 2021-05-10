@@ -1,6 +1,6 @@
 <?php namespace Shambou\RequestLogs\Classes\Logging;
 
-class Request
+class ApiRequest
 {
     protected ?string $headers = null;
 

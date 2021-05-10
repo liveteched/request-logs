@@ -2,7 +2,7 @@
 
 use SoapClient;
 
-class SoapRequest extends Request
+class SoapRequest extends ApiRequest
 {
     public function __construct(string $url, SoapClient $soapClient)
     {
