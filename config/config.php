@@ -2,11 +2,6 @@
 
 return [
     /*
-     * If set to false, request logging from middleware will go to the default queue
-     */
-    'queue' => false,
-
-    /*
      * Currently supports only json and soap channels
      * Keep in mind that all channels must be defined in single dimension:
      * ex: 'json' => ['client-api', 'second-client-api']
