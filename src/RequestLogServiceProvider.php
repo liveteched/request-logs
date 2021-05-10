@@ -1,11 +1,9 @@
 <?php namespace Shambou\RequestLogs;
 
-use Illuminate\Routing\Router;
 use Illuminate\Support\ServiceProvider;
 use Shambou\RequestLogs\Classes\Logging\RequestLogFactory;
 use Shambou\RequestLogs\Classes\Parsing\RequestLogParserFactory;
 use Shambou\RequestLogs\Console\InstallRequestLogs;
-use Shambou\RequestLogs\Http\Middleware\RequestLogMiddleware;
 
 /**
 * @author Sasa Milasinovic
@@ -19,7 +17,7 @@ class RequestLogServiceProvider extends ServiceProvider
 
     public function boot()
     {
-        // Register a Facade
+        // Register Facades
         $this->app->bind('requestlog_factory', function ($app) {
             return new RequestLogFactory();
         });
@@ -27,10 +25,6 @@ class RequestLogServiceProvider extends ServiceProvider
         $this->app->bind('requestlog_parser_factory', function ($app) {
             return new RequestLogParserFactory();
         });
-
-        // Register a route specific middleware
-        $router = $this->app->make(Router::class);
-        $router->aliasMiddleware('requestlogs', RequestLogMiddleware::class);
 
 
         if ($this->app->runningInConsole()) {
