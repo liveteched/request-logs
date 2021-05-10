@@ -6,8 +6,8 @@ use Shambou\RequestLogs\Models\RequestLog;
 use SoapClient;
 
 /**
- * @method static RequestLog buildFromCurrentRequest(Request $request)
- * @method static RequestLog buildFromSoapClient(string $url, SoapClient $soapClient)
+ * @method static RequestLog createForRest(Request $request)
+ * @method static RequestLog createForSoap(string $url, SoapClient $soapClient)
  *
  * @see \Shambou\RequestLogs\Classes\Logging\RequestLogFactory
  */

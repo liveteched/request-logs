@@ -21,7 +21,7 @@ class LogRestRequest implements ShouldQueue
 
     public function handle(Request $request)
     {
-        $requestLog = RequestLogFactory::buildFromCurrentRequest($request)
+        $requestLog = RequestLogFactory::createForRest($request)
             ->setJsonResponse($this->response);
 
         $customData = $request->attributes->get('custom_data', null);
