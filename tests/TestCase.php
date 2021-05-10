@@ -22,8 +22,8 @@ class TestCase extends \Orchestra\Testbench\TestCase
         include_once __DIR__ . '/../database/migrations/create_request_log_relations_table.php.stub';
 
         // run the migration's up() method
-        (new \CreateRequestLogRelationsTable)->up();
         (new \CreateRequestLogsTable)->up();
+        (new \CreateRequestLogRelationsTable)->up();
     }
 
     protected function getPackageProviders($app)
