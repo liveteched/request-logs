@@ -3,7 +3,7 @@
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Arr;
 
-class RestResponse extends Response
+class RestResponse extends ApiResponse
 {
     public function __construct(JsonResponse $response)
     {
@@ -11,7 +11,7 @@ class RestResponse extends Response
         $this->body = $response->content();
         $this->isSuccessful = $response->getStatusCode() == 200;
     }
-    
+
     private function parseHeaders(JsonResponse $response): string
     {
         $headers = '';

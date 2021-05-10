@@ -2,7 +2,7 @@
 
 use SoapClient;
 
-class SoapResponse extends Response
+class SoapResponse extends ApiResponse
 {
     public function __construct(SoapClient $soapClient)
     {
@@ -10,7 +10,7 @@ class SoapResponse extends Response
         $this->headers = $soapClient->__getLastResponseHeaders();
         $this->isSuccessful = $this->getLastResponseCode() == 200;
     }
-    
+
     public function getLastResponseCode(): int
     {
         preg_match("/HTTP\/\d\.\d\s*\K[\d]+/", $this->headers, $matches);

@@ -3,7 +3,7 @@
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Http\JsonResponse;
 use Shambou\RequestLogs\Classes\Logging\ApiRequest;
-use Shambou\RequestLogs\Classes\Logging\Response;
+use Shambou\RequestLogs\Classes\Logging\ApiResponse;
 use SoapClient;
 
 interface RequestLogInterface
@@ -12,7 +12,7 @@ interface RequestLogInterface
 
     public function setRequest(ApiRequest $request): self;
 
-    public function setResponse(Response $response): self;
+    public function setResponse(ApiResponse $response): self;
 
     public function setJsonResponse(JsonResponse $response): self;
 
@@ -20,7 +20,7 @@ interface RequestLogInterface
 
     public function getRequest(): ApiRequest;
 
-    public function getResponse(): Response;
+    public function getResponse(): ApiResponse;
 
     public function setChannel(string $channel): self;
 

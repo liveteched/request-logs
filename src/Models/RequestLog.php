@@ -4,7 +4,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Http\JsonResponse;
 use Shambou\RequestLogs\Classes\Logging\ApiRequest;
-use Shambou\RequestLogs\Classes\Logging\Response;
+use Shambou\RequestLogs\Classes\Logging\ApiResponse;
 use Shambou\RequestLogs\Classes\Logging\RestResponse;
 use Shambou\RequestLogs\Classes\Logging\SoapResponse;
 use Shambou\RequestLogs\Contracts\RequestLogInterface;
@@ -15,7 +15,7 @@ class RequestLog extends Model implements RequestLogInterface
 {
     private ApiRequest $request;
 
-    private Response $response;
+    private ApiResponse $response;
 
     protected $fillable = ['url', 'action', 'channel', 'request_headers', 'request_body', 'response_headers', 'response_body', 'success', 'custom_data', 'execution_time'];
 
@@ -47,7 +47,7 @@ class RequestLog extends Model implements RequestLogInterface
         return $this;
     }
 
-    public function setResponse(Response $response): self
+    public function setResponse(ApiResponse $response): self
     {
         $this->response = $response;
 
@@ -69,7 +69,7 @@ class RequestLog extends Model implements RequestLogInterface
         return $this->request;
     }
 
-    public function getResponse(): Response
+    public function getResponse(): ApiResponse
     {
         return $this->response;
     }
