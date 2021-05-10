@@ -6,7 +6,7 @@ The Package stores all requests in the `request_logs` table with ability to defi
 The Package doesn't provide **views** to see logs, you can do that yourself if you need it.
 
 There are two optional fields in `request_logs` table
-- `channel` - used to set unique channel that is tied to API user. Ex: `client1-api` 
+- `channel` - used to set unique channel name for API. Ex: `client1-api` 
 - `action`  - used to set API action. Ex: `login`, `retrieve`, `event_modified` etc
 
 Both are used for easier searching/handling DB records
@@ -21,11 +21,6 @@ $ php artisan migrate
 ## Configuration:
 ```
 return [
-    /*
-     * If set to false, request logging from middleware will go to the default queue
-     */
-    'queue' => false,
-
     /*
      * Currently supports only json and soap channels
      * Keep in mind that all channels must be defined in single dimension:
@@ -53,39 +48,7 @@ return [
     ]
 ];
 ```
-
-## Example usage 1: Middleware
-
-If middleware is used as is request logs will always save:
-- request_logs.action = default 
-- request_logs.channel = default
-
-To get this right, where ever you define middleware you should pass
-
-```
-request()->attributes->add([
-  'action'   => 'some-action-name',
-  'channel'  => 'channel-name',
-  'relation' => Model instance ex: User::find(1)
-  'custom_data' => []
-]);
-```
-To use middleware integration call in controller constructor:
-```
-public function __construct()
-{
-    $this->middleware('requestlogs');
-
-    request()->attributes->add([
-        'action' => 'login',
-        'channel' => 'client1-api',
-    ]);
-}
-```
-
-#### Note: *Currently, only Rest API logging is supported by this middleware*
-
-## Example usage 2: REST
+## Example usage 1: REST
 
 ```
 $startTime = microtime(true);
@@ -93,17 +56,17 @@ $response = response()->json([
     'success' => true
 ]);
 
-RequestLogFactory::buildFromCurrentRequest($request)
+$relation = User::find(1);
+
+RequestLogFactory::createForRest($request)
     ->setJsonResponse($response)
-    ->storeLog([
-        'action'           => 'login',
-        'channel'          => 'client-api',
-        'method'           => $request->getMethod(), // GET, POST, PATCH etc 
-        'execution_time'   => microtime(true) - $startTime,
-        'custom_data'      => [
-            'transaction_id' => '32132131'
-        ]
-], User::find(1));
+    ->setAction('login')
+    ->setChannel('client-api')
+    ->setExectionTime(microtime(true) - $startTime)
+    ->setCustomData([
+        'transaction_id' => 'ecfe78cc-10ce-49d2-bb31-29b01da03fc6'
+    ])
+    ->storeLog($relation);
 ```
 
 ## Example usage 2: SOAP
@@ -111,15 +74,14 @@ RequestLogFactory::buildFromCurrentRequest($request)
 ```
 $wsdlUrl = 'https://api.example.com/soap/V10023.ASMX?WSDL'
 $startTime = microtime(true);
+$relation = User::find(1);
 
-RequestLogFactory::buildFromSoapClient($wdsUrl, $soapClient)
-    ->storeLog([
-        'action'           => 'Login',
-        'channel'          => 'client-soap-api',
-        'method'           => $request->getMethod(), // GET, POST, PATCH etc 
-        'execution_time'   => microtime(true) - $startTime,
-        'custom_data'      => [
-            'transaction_id' => '32132131'
-        ]
-], User::find(1));
+RequestLogFactory::createForSoap($wdsUrl, $soapClient)
+    ->setAction('login')
+    ->setChannel('client-soap-api')
+    ->setExectionTime(microtime(true) - $startTime)
+    ->setCustomData([
+        'transaction_id' => 'ecfe78cc-10ce-49d2-bb31-29b01da03fc6'
+    ])
+    ->storeLog($relation);
 ```
