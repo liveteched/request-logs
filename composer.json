@@ -1,5 +1,5 @@
 {
-    "name": "shambou/request-logs",
+    "name": "liveteched/request-logs",
     "description": "Store request/response data and headers from receiving API calls",
     "license": "MIT",
     "authors": [
