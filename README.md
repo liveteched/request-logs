@@ -1,6 +1,6 @@
 # Log API requests inside your Laravel app
 
-The `shambou/request-logs` package provides way to store API call request/response data with headers and custom attributes
+The `liveteched/request-logs` package provides way to store API call request/response data with headers and custom attributes
 The Package stores all requests in the `request_logs` table with ability to define polymorphic relationships in `request_log_relations` table. 
 
 The Package doesn't provide **views** to see logs, you can do that yourself if you need it.
